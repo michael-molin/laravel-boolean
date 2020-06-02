@@ -90,7 +90,7 @@ $pages = [
                             <td><a class="btn btn-primary" href="#">Visualizza</a></td>
                             <td><a class="btn btn-secondary" href="#">Modifica</a></td>
                             <td><form action="" method="post">
-                                @method('PUT');
+                                @method('DELETE');
                                 @csrf
                                 <input type="btn btn-danger" type="submit" value="Elimina"></form>
                             </td>
