@@ -24,6 +24,12 @@
                     <form action="{{route('admin.pages.store')}}" method="post">
                         @method('POST')
                         @csrf
+                        {{-- Switch visibile per la visualizzazione dei post nell'area guest --}}
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input" id="customSwitches" name="visible">
+                          <label class="custom-control-label" for="customSwitches">Visible</label>
+                        </div>
+
                         {{-- creo l'input con label associata per il titolo con gestione errori--}}
                         <div class="form-group">
                             <label for="title">Titolo</label>

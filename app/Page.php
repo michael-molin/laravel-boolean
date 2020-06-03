@@ -14,6 +14,8 @@ class Page extends Model
         'title',
         'summary',
         'body',
+        'visible'
+
     ];
 
     // inizializzo relazioni tabelle

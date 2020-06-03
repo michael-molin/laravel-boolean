@@ -38,11 +38,11 @@
                         <tr>
                             <td>{{$page['id']}}</td>
                             <td>{{$page['title']}}</td>
-                            <td>{{$page['category']}}</td>
+                            <td>{{$page->category->name}}</td>
                             <td>
                                 {{-- dato che ci possono essere più tag nella stessa pagina, faccio un foreach per stampare ogni tag --}}
                                 @foreach ($page['tags'] as $tag)
-                                    {{$tag}}
+                                    {{$tag->name}}
                                     {{-- se non è l'ultimo elemento del loop, aggiungo una virgola per differenziare --}}
                                     @if (!$loop->last)
                                         ,
@@ -50,15 +50,20 @@
                                 @endforeach
                             </td>
                             {{-- Creo i pulsanti con Show, Edit e delete. Per il delete ovviamente c'è bisogno di un form apposito --}}
-                            <td><a class="btn btn-secondary" href="#">Modifica</a></td>
-                            <td><form action="" method="post">
-                                @method('DELETE');
+                            <td><a class="btn btn-secondary" href="{{route('admin.pages.edit' , $page->id)}}">Modifica</a></td>
+                            <td>
+                                <form action="{{route('admin.pages.destroy' , $page->id)}}" method="post">
                                 @csrf
-                                <input type="btn btn-danger" type="submit" value="Elimina"></form>
+                                @method('DELETE')
+                                <input class="btn btn-danger" type="submit" value="Elimina">
+                                </form>
                             </td>
                         </tr>
                 </tbody>
             </table>
+            @foreach ($page->photos as $photo)
+          <img src="{{asset('storage/'  . $photo->path)}}" alt="{{$photo->name}}">
+          @endforeach
         </div>
     </div>
 </div>

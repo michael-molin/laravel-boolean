@@ -53,6 +53,12 @@ class PageController extends Controller
         $data = $request->all();
         $data['user_id'] = Auth::id();
 
+        if(!isset($data['visible'])) {
+           $data['visible'] = 0;
+       } else {
+           $data['visible'] = 1;
+       }
+
         // $validator = Validator::make($data, [
         //     'title' => 'required',
         //     'summary' => 'required',
@@ -70,7 +76,6 @@ class PageController extends Controller
         $page= new Page;
         $page->fill($data);
         $updated = $page->save();
-        dd($updated);
         if(!$updated) {
             abort('404');
         }
@@ -94,7 +99,7 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        $page = Page::findOrFails($id);
+        $page = Page::findOrFail($id);
 
         return view('admin.pages.show' , compact('page'));
     }
@@ -107,7 +112,7 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        $page = Page::findOrFails($id);
+        $page = Page::findOrFail($id);
 
         $user = Auth::id();
 
@@ -131,7 +136,7 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $page = Page::findOrFails($id);
+        $page = Page::findOrFail($id);
 
         $user = Auth::id();
 
@@ -180,7 +185,7 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        $page = Page::findOrFails($id);
+        $page = Page::findOrFail($id);
 
         $user = Auth::id();
 
