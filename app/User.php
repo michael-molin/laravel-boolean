@@ -36,4 +36,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // inizializzo relazioni tra tabelle
+    public function categories()
+    {
+        return $this->hasMany('App\Category');
+    }
+
+    public function pages()
+    {
+        return $this->hasMany('App\Page');
+    }
+
+    public function tags()
+    {
+        return $this->hasMany('App\Tag');
+    }
+
+    public function photos()
+    {
+        return $this->hasMany('App\Photo');
+    }
 }
