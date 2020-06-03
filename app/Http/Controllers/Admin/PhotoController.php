@@ -2,8 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Photo;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
+
+use App\Page;
+use App\Category;
+use App\Tag;
+use App\Photo;
 
 class PhotoController extends Controller
 {
@@ -14,7 +23,8 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        $photos= Photo::orderBy('updated_at', 'DESC' )->paginate(25);
+        return view('admin.photos.index', compact('photos'));
     }
 
     /**
@@ -24,7 +34,7 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.photos.create');
     }
 
     /**
@@ -35,7 +45,17 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->all();
+        $path = Storage::disk('public')->put('images' , $data['path']);
+        $photo = new Photo;
+        $photo->user_id = Auth::id();
+        $photo->name = $data['name'];
+        $photo->description = $data['description'];
+        $photo->path = $path;
+        $photo->save();
+
+        return redirect()->route('admin.photos.show', $photo->id);
     }
 
     /**
@@ -44,9 +64,10 @@ class PhotoController extends Controller
      * @param  \App\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function show(Photo $photo)
+    public function show($id)
     {
-        //
+        $photo = Photo::findOrFail($id);
+        return view('admin.photos.show', compact('photo'));
     }
 
     /**
@@ -55,9 +76,10 @@ class PhotoController extends Controller
      * @param  \App\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Photo $photo)
+    public function edit($id)
     {
-        //
+        $photo = Photo::findOrFail($id);
+        return view('admin.photos.edit', compact('photo'));
     }
 
     /**
@@ -67,9 +89,18 @@ class PhotoController extends Controller
      * @param  \App\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Photo $photo)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        if(isset($data['path'])) {
+            Storage::disk('public')->delete($photo['path']);
+            Storage::disk('public')->put($photo['path']);
+        }
+
+        $photo = Photo::findOrFails($id);
+        $photo->fill($data);
+        $photo->update();
+
     }
 
     /**
@@ -78,8 +109,14 @@ class PhotoController extends Controller
      * @param  \App\Photo  $photo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Photo $photo)
+    public function destroy($id)
     {
-        //
+        $photo = Photo::findOrFail($id);
+        $photo->pages()->detach();
+
+        // cancello la foto presente nello storage e poi nel db
+        $deleted = Storage::disk('public')->delete($photo->path);
+        $photo->delete();
+        return redirect()->back();
     }
 }

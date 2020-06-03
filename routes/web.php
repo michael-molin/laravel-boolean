@@ -40,4 +40,5 @@ Route::prefix('admin')
     ->middleware('auth')
     ->group(function() {
         Route::resource('pages', 'PageController');
+        Route::resource('photos', 'PhotoController');
     });

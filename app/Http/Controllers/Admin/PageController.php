@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
 
 use App\Page;
 use App\Category;
@@ -47,27 +50,27 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request::all();
+        $data = $request->all();
         $data['user_id'] = Auth::id();
 
-        $validator = Validator::make($data, [
-            'title' => 'required',
-            'summary' => 'required',
-            'user_id' => 'required',
-            'category_id' => 'required',
-            'tag_id' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('admin.pages.create')
-            ->withErrors($validator)
-            ->withInput();
-        }
+        // $validator = Validator::make($data, [
+        //     'title' => 'required',
+        //     'summary' => 'required',
+        //     'user_id' => 'required',
+        //     'category_id' => 'required',
+        //     'tag_id' => 'required'
+        // ]);
+        //
+        // if ($validator->fails()) {
+        //     return redirect()->route('admin.pages.create')
+        //     ->withErrors($validator)
+        //     ->withInput();
+        // }
 
         $page= new Page;
         $page->fill($data);
         $updated = $page->save();
-
+        dd($updated);
         if(!$updated) {
             abort('404');
         }

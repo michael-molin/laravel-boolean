@@ -55,10 +55,16 @@
                             {{-- Creo i pulsanti con Show, Edit e delete. Per il delete ovviamente c'è bisogno di un form apposito --}}
                             <td><a class="btn btn-primary" href="#">Visualizza</a></td>
                             <td><a class="btn btn-secondary" href="#">Modifica</a></td>
-                            <td><form action="" method="post">
-                                @method('DELETE');
-                                @csrf
-                                <input type="btn btn-danger" type="submit" value="Elimina"></form>
+                            <td>
+                                {{-- Se l'id con cui ho fatto l'accesso alla sezione login è uguale all'id utente nel dato page->user_id (ovvero il creatore del post) allora mi compare l'opzione per cancellare il post --}}
+                                @if(Auth::id()== $page->user_id)
+                                    {{-- Quando si crea il delete, ricordarsi di fare un form, cambiare il method e aggiungere il token --}}
+                                    <form action="{{route('admin.pages.destroy' , $page->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input class="btn btn-danger" type="submit" value="Elimina">
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

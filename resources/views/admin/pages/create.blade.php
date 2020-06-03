@@ -21,13 +21,13 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="{{route('admin.pages.store')}}" method="post" enctype="application/x-www-form-urlencoded">
+                    <form action="{{route('admin.pages.store')}}" method="post">
                         @method('POST')
                         @csrf
                         {{-- creo l'input con label associata per il titolo con gestione errori--}}
                         <div class="form-group">
                             <label for="title">Titolo</label>
-                            <input type="text" class="form-control" id="title" placeholder="inserisci un titolo">
+                            <input type="text" name="title" class="form-control" id="title" placeholder="inserisci un titolo">
                             @error('title')
                                 <small class="form-error">Errore</small>
                             @enderror
@@ -36,7 +36,7 @@
                         {{-- creo l'input con label associata per il sommario con gestione errori --}}
                         <div class="form-group">
                             <label for="summary">Sommario</label>
-                            <input type="text" class="form-control" id="summary" placeholder="inserisci il sommario">
+                            <input type="text" name="summary" class="form-control" id="summary" placeholder="inserisci il sommario">
                             @error('summary')
                                 <small class="form-error">Errore</small>
                             @enderror
@@ -46,9 +46,9 @@
                         <div class="form-group">
                             <label for="category">Categorie</label>
                             {{-- creo un select con le impostazioni di boostrap e poi creo un foreach che va ad inserire tante opzioni quante sono le categorie, il valore è un numero rappresentato dall'id della cat. Ma visualizzo il nome per comprensione --}}
-                            <select name="category" id="category" class="custom-select">
+                            <select name="category_id" id="category" class="custom-select">
                                 @foreach ($categories as $category)
-                                    <option value="{{$category['id']}}">{{$category['name']}}</option>
+                                    <option value="{{$category['id']}}" name="category">{{$category['name']}}</option>
                                 @endforeach
                             </select>
                             @error('category')
@@ -88,7 +88,7 @@
                                 @foreach ($photos as $photo)
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input"  type="checkbox" name="photos[]" id="photo{{$photo['id']}}" value="{{$photo['id']}}">
-                                        <label class="form-check-label" for="photo{{$photo['id']}}">{{$photo['title']}}
+                                        <label class="form-check-label" for="photo{{$photo['id']}}">{{$photo['name']}}
                                         <img src="{{$photo['path']}}" alt=""></label>
                                     </div>
                                 @endforeach
@@ -96,6 +96,9 @@
                                   <small class="form-text">Errore</small>
                                 @enderror
                             </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="submit" value="Salva">
                         </div>
                     </form>
                 </div>
