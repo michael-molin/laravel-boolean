@@ -20,8 +20,6 @@
                     <h2>Pages</h2>
                 </div>
                 <div class="offset-3 col-3">
-                    {{-- salto lo spazio di 3 col, prendo 3 col e creo un link al create --}}
-                    <a href="{{route('admin.pages.create')}}">Crea una pagina</a>
                 </div>
             </div>
             <table class="table">
@@ -32,12 +30,11 @@
                         <th>Title</th>
                         <th>Category</th>
                         <th>Tags</th>
-                        <th colspan="3">Actions</th>
+                        <th colspan="2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{-- creo un ciclo in cui stampo ogni pagina presente nel db/array dati --}}
-                    @foreach ($pages as $page)
                         <tr>
                             <td>{{$page['id']}}</td>
                             <td>{{$page['title']}}</td>
@@ -53,7 +50,6 @@
                                 @endforeach
                             </td>
                             {{-- Creo i pulsanti con Show, Edit e delete. Per il delete ovviamente c'è bisogno di un form apposito --}}
-                            <td><a class="btn btn-primary" href="#">Visualizza</a></td>
                             <td><a class="btn btn-secondary" href="#">Modifica</a></td>
                             <td><form action="" method="post">
                                 @method('DELETE');
@@ -61,7 +57,6 @@
                                 <input type="btn btn-danger" type="submit" value="Elimina"></form>
                             </td>
                         </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>

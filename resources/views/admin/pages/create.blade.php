@@ -1,73 +1,3 @@
-@php
-// recupero i dati fake creati a lezione
-$categories =  [
-              [
-                'id' => 1,
-                'name' =>'Miscellanea'
-              ],
-              [
-                'id' => 2,
-                'name' =>'Lorem'
-              ],
-              [
-                'id' => 3,
-                'name' =>'Ipsum'
-              ],
-              [
-                'id' => 4,
-                'name' =>'Dolor'
-              ],
-              [
-                'id' => 5,
-                'name' =>'Sit'
-              ]];
-$tags = [
-          [
-            'id' => 1,
-            'name' => 'Tag 1'
-          ],
-          [
-            'id' => 2,
-            'name' => 'Tag 2'
-          ],
-          [
-            'id' => 3,
-            'name' => 'Tag 3'
-          ],
-          [
-            'id' => 4,
-            'name' => 'Tag 4'
-          ],
-          [
-            'id' => 5,
-            'name' => 'Tag 5'
-          ],
-          [
-            'id' => 6,
-            'name' => 'Tag 6'
-          ],
-          [
-            'id' => 7,
-            'name' => 'Tag 7'
-          ],];
-$photos = [
-  [
-    'id' => 1,
-    'title' => 'Lorem ipsum',
-    'path' => 'images/nomefoto.jpg'
-  ],
-    [
-      'id' => 2,
-      'title' => 'Due Lorem ipsum',
-      'path' => 'images/nomefoto.jpg'
-  ],
-    [
-      'id' => 3,
-      'title' => 'Tre Lorem ipsum',
-      'path' => 'images/nomefoto.jpg'
-  ],]
-@endphp
-
 @extends('layouts.app')
 @section('content')
 <div class="container">
@@ -76,7 +6,7 @@ $photos = [
             {{-- creo una nav bar iniziale con la disposizione dei link con la visualizzazione breadcrumbs --}}
             <nav aria-label='breadcrumb'>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.pages.index')}}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Create</li>
                 </ol>
             </nav>
@@ -91,7 +21,7 @@ $photos = [
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="" method="post">
+                    <form action="{{route('admin.pages.store')}}" method="post" enctype="application/x-www-form-urlencoded">
                         @method('POST')
                         @csrf
                         {{-- creo l'input con label associata per il titolo con gestione errori--}}
@@ -128,7 +58,7 @@ $photos = [
 
                         {{-- creo l'input con label associata per il corpo del post con gestione errori --}}
                         <div class="form-group">
-                            <label for="body">corpo</label>
+                            <label for="body">Corpo</label>
                          <textarea class="form-control" name="body" id="body" rows="10"></textarea>
                          @error('body')
                            <small class="form-text">Errore</small>
